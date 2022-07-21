@@ -1,4 +1,6 @@
 import Utils from "./Utils.js";
+import CONFIG from "./config.js";
+const { STARTING_FALL_DELAY, DECREMENT_EVERY_X_ROWS, DELAY_DECREMENT_AMOUNT, LINE_CLEAR_SCORE, SCORE_MULTIPLIER } = CONFIG
 
 class Board {
    constructor(game, blockSize, height, width, sprites) {
@@ -50,6 +52,7 @@ class Board {
          }
       }
       this.currentShape.active = false;
+      this.game.generateShape();
    }
 
    moveShapeDown() {
@@ -101,10 +104,16 @@ class Board {
             }
          }
       })
+      
+      if (!fullRows.length) return;
+      this.game.clearedRows += fullRows.length;
+      this.level = Math.floor(this.game.clearedRows / DECREMENT_EVERY_X_ROWS);
+      this.game.fallDelay = STARTING_FALL_DELAY - (this.level * DELAY_DECREMENT_AMOUNT);
+      this.game.score += (LINE_CLEAR_SCORE * Math.pow(SCORE_MULTIPLIER, fullRows.length));
+      console.log(this.game.score); 
    }
 
    checkIfColliding(matrix = this.currentShape.matrix) {
-      console.log(this.currentShape.offsetY);
       let offsetX = this.currentShape.offsetX;
       let offsetY = this.currentShape.offsetY;
       for (let i = 0; i < matrix.length; i++) {

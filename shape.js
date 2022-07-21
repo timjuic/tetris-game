@@ -6,10 +6,6 @@ class Shape {
       this.active = true;
       this.hitBottom = 0;
    }
-
-   rotate() {
-
-   }
 }
 
 export default Shape;
