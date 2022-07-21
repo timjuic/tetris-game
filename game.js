@@ -1,4 +1,4 @@
-import Field from "./field.js";
+import Board from "./board.js";
 import CONFIG from "./config.js";
 import SHAPES from "./shapes.js";
 import Shape from "./shape.js";
@@ -6,17 +6,27 @@ const { BLOCKSIZE, ROWS, COLUMNS, INITIAL_SPEED_MS } = CONFIG;
 let now, elapsed, then = Date.now();
 
 class Game {
-   constructor() {
-      this.sprites;
-      this.field = new Field(BLOCKSIZE, ROWS, COLUMNS);
+   constructor(sprites) {
+      this.sprites = sprites;
+      this.paused = false;
+      this.ended = false;
+      this.board = new Board(this, BLOCKSIZE, ROWS, COLUMNS, sprites);
    }
 
-   loop(arg, immediate = false) {
-      if (!immediate) requestAnimationFrame(this.loop.bind(this))
-      else {
-         this.field.shapeCtx.clearRect(0,0, this.field.shapeCanvas.width, this.field.shapeCanvas.height);
-         this.field.draw(this.sprites);
-      }
+   start() {
+      this.paused = false;
+      this.loop();
+   }
+
+   pause() {
+      this.paused = true;
+   }
+
+   loop(arg) {
+      if (this.paused || this.ended) return;
+
+
+      requestAnimationFrame(this.loop.bind(this));
 
       now = Date.now();
       elapsed = now - then;
@@ -24,33 +34,22 @@ class Game {
 
       if (elapsed > INITIAL_SPEED_MS) {
          then = now - (elapsed % INITIAL_SPEED_MS);
-         if (!this.field.currentShape.active) {
-            let randomShapeIndex = Math.floor(Math.random() * SHAPES.length);
-            let randomShapeMatrix = SHAPES[randomShapeIndex];
-            let offsetX = Math.floor((this.field.fieldMap[0].length - randomShapeMatrix[0].length) / 2);
-            let newShape = new Shape(randomShapeMatrix, randomShapeIndex + 1, offsetX)
-            this.field.addShape(newShape);
+         if (!this.board.currentShape.active) {
+            this.generateShape();
+            // if (!shapeAddedSuccessfully) this.ended = true;
          }
-         this.field.shapeCtx.clearRect(0,0, this.field.shapeCanvas.width, this.field.shapeCanvas.height);
-         this.field.moveShapeDown();
-         this.field.draw(this.sprites);
+         this.board.clearFilledRows();
+         this.board.moveShapeDown();
+         this.board.update();
       }      
    }
-   
-   async loadSprites() {
-      const spriteAmount = 8;
-      let promises = []
-      for (let i = 0; i < spriteAmount; i++){
-         const imagePath = `./sprites/${i}.png`;
-         let promise = new Promise((resolve, reject) => {
-            let image = new Image();
-            image.onload = () => resolve(image);
-            image.onerror = () => reject(`Error while loading image ${i}`);
-            image.src = imagePath;
-         })
-         promises.push(promise);
-      }
-      this.sprites = await Promise.all(promises);
+
+   generateShape() {
+      let randomShapeIndex = Math.floor(Math.random() * SHAPES.length);
+      let randomShapeMatrix = SHAPES[randomShapeIndex];
+      let offsetX = Math.floor((this.board.matrix[0].length - randomShapeMatrix[0].length) / 2);
+      let shape = new Shape(randomShapeMatrix, offsetX);
+      this.board.currentShape = shape;
    }
 };
 

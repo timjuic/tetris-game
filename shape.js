@@ -1,10 +1,10 @@
 class Shape {
-   constructor(matrix, imageIndex, offsetX, offsetY = 0) {
+   constructor(matrix, offsetX) {
       this.matrix = matrix;
-      this.imageIndex = imageIndex;
       this.offsetX = offsetX
-      this.offsetY = offsetY
+      this.offsetY = 0
       this.active = true;
+      this.hitBottom = 0;
    }
 
    rotate() {

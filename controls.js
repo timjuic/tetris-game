@@ -3,7 +3,8 @@ const CONTROLS = {
    moveRight: 'ArrowRight',
    moveDown: 'ArrowDown',
    drop: 'Space',
-   rotate: 'ArrowUp'
+   rotate: 'ArrowUp',
+   pause: 'Escape',
 }
 
 export default CONTROLS
