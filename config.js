@@ -7,7 +7,7 @@ const CONFIG = {
    // Fall delay config
    STARTING_FALL_DELAY: 1000,
    DELAY_DECREMENT_AMOUNT: 50,
-   DECREMENT_EVERY_X_ROWS: 20,
+   DECREMENT_EVERY_X_ROWS: 1,
 
    // Score config
    LINE_CLEAR_SCORE: 100,
