@@ -1,6 +1,7 @@
 * {
    margin: 0;
    padding: 0;
+   box-sizing: border-box;
 }
 
 body {
@@ -70,3 +71,75 @@ body {
 canvas {
    position: absolute;
 }
+
+.end-modal {
+   background-color: #18192B;
+   padding: 20px;
+   position: absolute;
+   left: 50%;
+   top: 50%;
+   z-index: 5;
+   width: 250px;
+   transform: translate(-50%, -50%);
+   color: white;
+   display: none;
+}
+
+.end-modal .title {
+   font-size: 30px;
+   padding: 10px;
+   margin-bottom: 100px;
+   text-align: center;
+}
+
+.end-modal .wrapper {
+   width: 100%;
+   position: relative;
+}
+
+.end-modal p {
+   margin-bottom: 5px;
+}
+
+input {
+   margin-bottom: 10px;
+   width: 100%;
+   padding: 6px 0;
+   padding-left: 10px;
+}
+
+button {
+   display: block;
+   background-color: cyan;
+   width: 100%;
+   padding: 6px;
+}
+
+.highscores-modal {
+   z-index: 5;
+   width: 400px;
+   z-index: 20;
+   position: absolute;
+   left: 50%;
+   top: 50%;
+   transform: translate(-50%, -50%);
+   background-color: #18192B;
+   color: white;
+   display: none;
+}
+
+table {
+   font-family: arial, sans-serif;
+   border-collapse: collapse;
+   width: 100%;
+ }
+ 
+ td, th {
+   border: 1px solid #ffffff;
+   text-align: left;
+   padding: 8px;
+ }
+ 
+ tr:nth-child(even) {
+   background-color: #313137;
+ }

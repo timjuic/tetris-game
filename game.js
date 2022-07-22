@@ -30,7 +30,11 @@ class Game {
    }
 
    loop() {
-      if (this.paused || this.ended) return;
+      if (this.ended) {
+         this.endGame();
+         return
+      }
+      if (this.paused) return;
       
       requestAnimationFrame(this.loop.bind(this));
 
@@ -53,6 +57,42 @@ class Game {
       let shape = new Shape(randomShapeMatrix, offsetX);
       this.board.currentShape = shape;
       then = Date.now() // Reseting the timer
+   }
+
+   endGame() {
+      let endModal = document.querySelector('.end-modal');
+      let highscoresModal = document.querySelector('.highscores-modal')
+      let form = document.querySelector('.end-modal form')
+      let submitBtn = form.querySelector('button');
+      endModal.style.display = 'block';
+
+      window.addEventListener('keydown', (e) => {
+         if (e.code === 'enter') {
+            submitBtn.click();
+         }
+      })
+
+      form.addEventListener('submit', (e) => {
+         e.preventDefault();
+         endModal.style.display = 'none';
+         let table = localStorage.getItem('highscores');
+         highscoresModal.innerHTML = table;
+         let username = endModal.querySelector('input').value
+         let score = this.score;
+         let date = new Date()
+         let time = `${date.getHours()}:${date.getMinutes()} ${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`
+         let row = [username, score, time]
+         let tableRow = document.createElement('tr');
+         row.forEach(value => {
+            let tableCell = document.createElement('td');
+            tableCell.innerHTML = value;
+            tableRow.appendChild(tableCell)
+         })
+         highscoresModal.children[0].appendChild(tableRow)
+         localStorage.setItem('highscores', highscoresModal.innerHTML);
+         console.log(localStorage);
+         highscoresModal.style.display = 'block';
+      })
    }
 };
 

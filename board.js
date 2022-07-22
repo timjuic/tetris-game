@@ -1,12 +1,11 @@
 import Utils from "./Utils.js";
 import CONFIG from "./config.js";
-const { STARTING_FALL_DELAY, DECREMENT_EVERY_X_ROWS, DELAY_DECREMENT_AMOUNT, LINE_CLEAR_SCORE, SHAPE_PLACE_SCORE } = CONFIG
+const { STARTING_FALL_DELAY, DECREMENT_EVERY_X_ROWS, DELAY_DECREMENT_AMOUNT, LINE_CLEAR_SCORE, SHAPE_PLACE_SCORE } = CONFIG;
 
 class Board {
    constructor(game, blockSize, columns, rows) {
       this.game = game
 
-      // Main canvas and its static black background
       this.bgCanvas = document.createElement('canvas');
       this.shapeCanvas = document.createElement('canvas');
       this.bgCtx = this.bgCanvas.getContext('2d');
@@ -20,7 +19,6 @@ class Board {
       this.bgCanvas.width = this.shapeCanvas.width = this.blockSize * rows;
       this.matrix = Utils.generateMatrix(columns, rows); 
       this.currentShape;
-
    }
 
    renderBackground(bgImage) {
@@ -34,12 +32,12 @@ class Board {
       })
    }
 
-
    fixateShape() {
       for (let i = 0; i < this.currentShape.matrix.length; i++) {
          for (let j = 0; j < this.currentShape.matrix[0].length; j++) {
             if (this.currentShape.matrix[i][j] !== 0) {
-               if (this.matrix[i + this.currentShape.offsetY][j + this.currentShape.offsetX] !== 0) {
+               if (this.currentShape.offsetY < 0 ||
+                  this.matrix[i + this.currentShape.offsetY][j + this.currentShape.offsetX] !== 0) {
                   this.game.ended = true;
                   return;
                }
@@ -49,7 +47,6 @@ class Board {
       }
       this.currentShape.active = false;
       
-
       this.game.score += SHAPE_PLACE_SCORE * (this.game.level+1);
       this.updateStats();
 
