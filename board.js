@@ -105,7 +105,7 @@ class Board {
       
       if (!fullRows.length) return;
       this.game.clearedRows += fullRows.length;
-      this.level = Math.floor(this.game.clearedRows / DECREMENT_EVERY_X_ROWS);
+      this.game.level = Math.floor(this.game.clearedRows / DECREMENT_EVERY_X_ROWS);
       this.game.fallDelay = STARTING_FALL_DELAY - (this.level * DELAY_DECREMENT_AMOUNT);
       this.game.score += (LINE_CLEAR_SCORE * fullRows.length * fullRows.length * (this.game.level+1));
       this.updateStats();
