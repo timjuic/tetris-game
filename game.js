@@ -14,6 +14,7 @@ class Game {
       this.clearedRows = 0;
       this.scoreHTML = document.querySelector('.score .value')
       this.clearedRowsHTML = document.querySelector('.cleared-rows .value')
+      this.levelHTML = document.querySelector('.level .value');
       this.level = 0;
       this.fallDelay = STARTING_FALL_DELAY;
       this.board = new Board(this, BLOCKSIZE, ROWS, COLUMNS, sprites);

@@ -49,9 +49,9 @@ class Board {
       }
       this.currentShape.active = false;
       
-      console.log();
+
       this.game.score += SHAPE_PLACE_SCORE * (this.game.level+1);
-      this.game.scoreHTML.innerHTML = this.game.score;
+      this.updateStats();
 
       this.game.generateShape();
    }
@@ -108,11 +108,10 @@ class Board {
       
       if (!fullRows.length) return;
       this.game.clearedRows += fullRows.length;
-      this.game.clearedRowsHTML.innerHTML = this.game.clearedRows;
       this.level = Math.floor(this.game.clearedRows / DECREMENT_EVERY_X_ROWS);
       this.game.fallDelay = STARTING_FALL_DELAY - (this.level * DELAY_DECREMENT_AMOUNT);
       this.game.score += (LINE_CLEAR_SCORE * fullRows.length * fullRows.length * (this.game.level+1));
-      this.game.scoreHTML.innerHTML = this.game.score; 
+      this.updateStats();
    }
 
    checkIfColliding(matrix = this.currentShape.matrix) {
@@ -150,6 +149,12 @@ class Board {
    update() {
       this.shapeCtx.clearRect(0,0, this.shapeCanvas.width, this.shapeCanvas.height);
       this.draw();
+   }
+
+   updateStats() {
+      this.game.clearedRowsHTML.innerHTML = this.game.clearedRows;
+      this.game.scoreHTML.innerHTML = this.game.score; 
+      this.game.levelHTML.innerHTML = this.game.level;
    }
 }
 
