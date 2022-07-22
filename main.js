@@ -2,8 +2,6 @@ import Game from './game.js'
 import CONTROLS from './controls.js'
 import Utils from './Utils.js';
 
-localStorage.clear();
-
 const sprites = await Utils.loadSprites();
 
 const game = new Game(sprites);
