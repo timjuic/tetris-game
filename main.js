@@ -8,7 +8,7 @@ const sprites = await Utils.loadSprites();
 const game = new Game(sprites);
 
 window.addEventListener('keydown', function(e) {
-   if (!game.board.currentShape.active || game.ended) return;
+   if (!game.board.currentShape.active || game.ended || game.paused) return;
    if (e.code === CONTROLS.moveRight) game.board.moveShapeRight();
    if (e.code === CONTROLS.moveLeft) game.board.moveShapeLeft();
    if (e.code === CONTROLS.moveDown) game.board.moveShapeDown();

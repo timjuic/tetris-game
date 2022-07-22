@@ -12,6 +12,8 @@ class Game {
       this.ended = false;
       this.score = 0;
       this.clearedRows = 0;
+      this.scoreHTML = document.querySelector('.score .value')
+      this.clearedRowsHTML = document.querySelector('.cleared-rows .value')
       this.level = 0;
       this.fallDelay = STARTING_FALL_DELAY;
       this.board = new Board(this, BLOCKSIZE, ROWS, COLUMNS, sprites);
@@ -50,7 +52,6 @@ class Game {
       let shape = new Shape(randomShapeMatrix, offsetX);
       this.board.currentShape = shape;
       then = Date.now() // Reseting the timer
-      console.log(shape.offsetY, 'shape created');
    }
 };
 

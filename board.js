@@ -1,30 +1,26 @@
 import Utils from "./Utils.js";
 import CONFIG from "./config.js";
-const { STARTING_FALL_DELAY, DECREMENT_EVERY_X_ROWS, DELAY_DECREMENT_AMOUNT, LINE_CLEAR_SCORE, SCORE_MULTIPLIER } = CONFIG
+const { STARTING_FALL_DELAY, DECREMENT_EVERY_X_ROWS, DELAY_DECREMENT_AMOUNT, LINE_CLEAR_SCORE, SHAPE_PLACE_SCORE } = CONFIG
 
 class Board {
-   constructor(game, blockSize, height, width, sprites) {
+   constructor(game, blockSize, columns, rows) {
       this.game = game
+
+      // Main canvas and its static black background
       this.bgCanvas = document.createElement('canvas');
       this.shapeCanvas = document.createElement('canvas');
       this.bgCtx = this.bgCanvas.getContext('2d');
       this.shapeCtx = this.shapeCanvas.getContext('2d');
-      document.body.appendChild(this.bgCanvas)
-      document.body.appendChild(this.shapeCanvas);
-      this.blockSize = blockSize;
-      this.bgCanvas.height = this.shapeCanvas.height = blockSize * height;
-      this.bgCanvas.width = this.shapeCanvas.width = blockSize * width;
-      this.sprites = sprites;
+      let canvasContainer = document.querySelector('.canvas-container');
+      canvasContainer.appendChild(this.bgCanvas)
+      canvasContainer.appendChild(this.shapeCanvas);
 
-      this.matrix = [];      
-
-      for (let i = 0; i < height; i++) {
-         this.matrix.push([]);
-         for (let j = 0; j < width; j++) {
-            this.matrix[i].push(0);
-         }
-      }
+      this.blockSize = canvasContainer.offsetWidth / rows;
+      this.bgCanvas.height = this.shapeCanvas.height = this.blockSize * columns;
+      this.bgCanvas.width = this.shapeCanvas.width = this.blockSize * rows;
+      this.matrix = Utils.generateMatrix(columns, rows); 
       this.currentShape;
+
    }
 
    renderBackground(bgImage) {
@@ -52,6 +48,11 @@ class Board {
          }
       }
       this.currentShape.active = false;
+      
+      console.log();
+      this.game.score += SHAPE_PLACE_SCORE * (this.game.level+1);
+      this.game.scoreHTML.innerHTML = this.game.score;
+
       this.game.generateShape();
    }
 
@@ -107,10 +108,11 @@ class Board {
       
       if (!fullRows.length) return;
       this.game.clearedRows += fullRows.length;
+      this.game.clearedRowsHTML.innerHTML = this.game.clearedRows;
       this.level = Math.floor(this.game.clearedRows / DECREMENT_EVERY_X_ROWS);
       this.game.fallDelay = STARTING_FALL_DELAY - (this.level * DELAY_DECREMENT_AMOUNT);
-      this.game.score += (LINE_CLEAR_SCORE * Math.pow(SCORE_MULTIPLIER, fullRows.length));
-      console.log(this.game.score); 
+      this.game.score += (LINE_CLEAR_SCORE * fullRows.length * fullRows.length * (this.game.level+1));
+      this.game.scoreHTML.innerHTML = this.game.score; 
    }
 
    checkIfColliding(matrix = this.currentShape.matrix) {
@@ -133,14 +135,14 @@ class Board {
       this.matrix.forEach((row, i) => {
          row.forEach((value, j) => {
             if (value === 0) return;
-            this.shapeCtx.drawImage(this.sprites[value], j * this.blockSize, i * this.blockSize, this.blockSize, this.blockSize);
+            this.shapeCtx.drawImage(this.game.sprites[value], j * this.blockSize, i * this.blockSize, this.blockSize, this.blockSize);
          })
       })
 
       this.currentShape.matrix.forEach((row, i) => {
          row.forEach((value, j) => {
             if (value === 0) return;
-            this.shapeCtx.drawImage(this.sprites[value], (j + this.currentShape.offsetX) * this.blockSize, (i + this.currentShape.offsetY) * this.blockSize, this.blockSize, this.blockSize);
+            this.shapeCtx.drawImage(this.game.sprites[value], (j + this.currentShape.offsetX) * this.blockSize, (i + this.currentShape.offsetY) * this.blockSize, this.blockSize, this.blockSize);
          })
       })
    }

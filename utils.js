@@ -3,6 +3,17 @@ export default class Utils {
       return matrix[0].map((val, index) => matrix.map(row => row[index]).reverse())
    }
 
+   static generateMatrix(columns, rows) {
+      let matrix = []
+      for (let i = 0; i < columns; i++) {
+         matrix.push([]);
+         for (let j = 0; j < rows; j++) {
+            matrix[i].push(0);
+         }
+      }
+      return matrix;
+   }
+
    static async loadSprites() {
       const spriteAmount = 8;
       let promises = []
