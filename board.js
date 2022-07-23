@@ -57,7 +57,7 @@ class Board {
       this.currentShape.offsetY++;
       if (this.checkIfColliding()) {
          this.currentShape.offsetY--;
-         if (this.currentShape.hitBottom < 2) this.currentShape.hitBottom++;
+         if (this.currentShape.hitBottom < 1) this.currentShape.hitBottom++;
          else this.fixateShape();
       } else this.currentShape.hitBottom = 0;
    }
