@@ -2,6 +2,8 @@
 
 > Implementation of game Tetris in vanilla Javascript
 
+![Screenshot 2022-07-23 at 19 01 30](https://user-images.githubusercontent.com/70685646/180615239-4e74e92b-06f0-46b4-b64d-8537dc91f005.png)
+
 Test the game at: https://tetris-game-d0315.web.app/
 
 ## Controls
