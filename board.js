@@ -3,7 +3,7 @@ import CONFIG from "./config.js";
 const { STARTING_FALL_DELAY, DECREMENT_EVERY_X_ROWS, DELAY_DECREMENT_AMOUNT, LINE_CLEAR_SCORE, SHAPE_PLACE_SCORE } = CONFIG;
 
 class Board {
-   constructor(game, blockSize, columns, rows) {
+   constructor(game, columns, rows) {
       this.game = game
 
       this.bgCanvas = document.createElement('canvas');

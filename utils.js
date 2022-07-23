@@ -4,7 +4,7 @@ export default class Utils {
    }
 
    static generateMatrix(columns, rows) {
-      let matrix = []
+      let matrix = [];
       for (let i = 0; i < columns; i++) {
          matrix.push([]);
          for (let j = 0; j < rows; j++) {

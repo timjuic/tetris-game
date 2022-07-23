@@ -17,7 +17,7 @@ class Game {
       this.levelHTML = document.querySelector('.level .value');
       this.level = 0;
       this.fallDelay = STARTING_FALL_DELAY;
-      this.board = new Board(this, BLOCKSIZE, ROWS, COLUMNS, sprites);
+      this.board = new Board(this, ROWS, COLUMNS);
    }
 
    start() {
@@ -77,7 +77,6 @@ class Game {
          endModal.style.display = 'none';
          let table = localStorage.getItem('highscores');
          highscoresModal.innerHTML = table;
-         console.log(table);
          let username = endModal.querySelector('input').value
          let score = this.score;
          let date = new Date()
@@ -94,7 +93,6 @@ class Game {
          highscoresModal.children[0].appendChild(tbody)
          let header = highscoresModal.children[0].children[0];
          let highscoreRows = Array.from(highscoresModal.children[0].children).filter(elem => {
-            console.log(elem.children[0].children[0]);
             return elem.children[0].nodeName !== 'TH'
          });
          let sortedRows = highscoreRows.sort((row1, row2) => {
@@ -104,13 +102,9 @@ class Game {
          highscoresModal.children[0].innerHTML = "";
          highscoresModal.children[0].appendChild(header)
          sortedRows.forEach(row => {
-            console.log('row' ,row);
-            console.log('adding row');
             highscoresModal.children[0].appendChild(row)
          })
-         console.log(highscoresModal);
          localStorage.setItem('highscores', highscoresModal.innerHTML);
-         console.log(localStorage);
          highscoresModal.style.display = 'block';
       })
    }

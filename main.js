@@ -2,6 +2,14 @@ import Game from './game.js'
 import CONTROLS from './controls.js'
 import Utils from './Utils.js';
 
+
+if (!localStorage.getItem('highscores')) {
+   let highscores = document.querySelector('.highscores-modal');
+   localStorage.setItem('highscores', highscores.innerHTML);
+
+
+}
+
 const sprites = await Utils.loadSprites();
 
 const game = new Game(sprites);
